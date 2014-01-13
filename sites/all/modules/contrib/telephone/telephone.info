@@ -1,0 +1,13 @@
+name = Telephone
+description = "Defines a field type for telephone numbers."
+package = Fields
+core = 7.x
+dependencies[] = field
+files[] = telephone.migrate.inc
+
+; Information added by  packaging script on 2013-11-05
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "telephone"
+datestamp = "1383615808"
+
