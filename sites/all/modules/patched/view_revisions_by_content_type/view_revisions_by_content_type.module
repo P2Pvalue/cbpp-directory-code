@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ * Provides per-content type 'view revisions' permissions.
+ */
+
+
+/**
+ * Implementation of hook_perm().
+ */
+function view_revisions_by_content_type_permission() {
+  $perms = array();
+
+  node_type_cache_reset();
+  $node_types = node_type_get_types();
+  foreach ($node_types as $type) {
+    $perm = 'view revisions of ' . check_plain($type->type) . ' content';
+    $name = 'View revisions of ' . check_plain($type->name) . ' content';
+    $perms[$perm] = array('title' => t($name), 'description' => t($name));
+  }
+
+  return $perms;
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function view_revisions_by_content_type_menu_alter(&$items) {
+  $view_revision_menu_items_paths = array(
+    // node.module
+    'node/%node/revisions',
+    'node/%node/revisions/%/view',
+    // diff.module
+    'node/%node/revisions/view',
+  );
+
+  // Override the access callback for each of the 
+  foreach ($items as $path => $item) {
+    if (in_array($path, $view_revision_menu_items_paths)) {
+      $items[$path]['access callback'] = 'view_revisions_by_content_type_access';
+    }
+  }
+}
+
+
+/**
+ * Access callback. Mostly a clone of _node_revision_access().
+ */
+function view_revisions_by_content_type_access($node, $op = 'view') {
+  static $access = array();
+  if (!isset($access[$node->vid])) {
+    $node_current_revision = node_load($node->nid);
+    $is_current_revision = $node_current_revision->vid == $node->vid;
+    // There should be at least two revisions. If the vid of the given node
+    // and the vid of the current revision differs, then we already have two
+    // different revisions so there is no need for a separate database check.
+    // Also, if you try to revert to or delete the current revision, that's
+    // not good.
+    if ($is_current_revision && (db_query('SELECT COUNT(vid) FROM {node_revision} WHERE nid = :nid', array(':nid' => $node->nid))->fetchField() == 1 || $op == 'update' || $op == 'delete')) {
+      $access[$node->vid] = FALSE;
+    }
+    elseif (user_access('administer nodes')) {
+      $access[$node->vid] = TRUE;
+    }
+    else {
+      $name = check_plain($node->type);
+      $perm = 'view revisions of ' . $name . ' content';
+      // First check the user permission, second check the access to the
+      // current revision and finally, if the node passed in is not the current
+      // revision then access to that, too.
+      $access[$node->vid] = user_access($perm) && node_access('view', $node_current_revision) && ($is_current_revision || node_access('view', $node));
+    }
+  }
+
+  return $access[$node->vid];
+}

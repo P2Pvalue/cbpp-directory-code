@@ -1,0 +1,5 @@
+name = View revisions by content type
+description = Provides per-content type 'view revisions' permissions.
+core = 7.x
+version = 7.x-dev
+files[] = view_restrictions_by_content_type.module
