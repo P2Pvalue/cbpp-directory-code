@@ -1,0 +1,190 @@
+/*
+ * responsive.custom.css is for custom media queries that are not set via the
+ * theme settings, such as cascading media queries.
+ *
+ * By default all the other responsive stylesheets used in Adaptivetheme use a
+ * "stacking method", however cascading media queries use a waterfall method so
+ * you can leverage the cascade and inheritance for all browsers that support
+ * media queries, regardless of screen size.
+ *
+ * @SEE http://zomigi.com/blog/essential-considerations-for-crafting-quality-media-queries/#mq-overlap-stack
+ *
+ * NOTE: this file loads by default, to disable got to your theme settings and
+ * look under the "CSS" settings tab.
+ */
+/*
+ * Really small screens and up
+ */
+/* @media only screen and (min-width: 220px) {} */
+/*
+ * Smartphone sizes and up
+ */
+/* @media only screen and (min-width: 320px) {} */
+/*
+ * Smartphone sizes and down
+ */
+@media only screen and (max-width: 480px) {
+  /* 
+   * Float Region blocks example:
+   * In smaller screen sizes we can remove the float and widths so all blocks
+   * stack instead of displaying horizonally. The selector used here is an
+   * "attribute selector" which will match on any float block class. Use your
+   * inspector or Firebug to get the classes from the page output if you need
+   * more granular control over block alignment and stacking.
+   * 
+   * "Float Region blocks" is an extension for floating blocks in regions, see
+   * your themes appearance settings, under the Extensions tab.
+   */
+  
+  .container {
+    width:98%;
+    padding: 0 1%;
+}
+
+#menu-bar > nav{
+    width: 100%;
+}
+
+.region-leaderboard .block{
+    float: none;
+    text-align: center;
+}
+
+.region-leaderboard .block li{
+    float: none;
+    display: inline-block;
+    zoom: 1;
+}
+
+.region-leaderboard .block .block-content{
+    float: none;
+}
+.region-leaderboard .block h2{
+    float: none;
+}
+
+#branding{
+    text-align: center;
+    margin: 10px 0;
+}
+
+#menu-bar > nav select{
+width: 97%;
+}
+
+  .region[class*="float-blocks"] .block {
+    float: none;
+    width: 100%;
+  }
+  
+  .site-info .data-section{
+      width: 100%;
+      float: none;
+  }
+  
+  .site-info .com-section{
+        width: 100%;
+      float: none;
+  }
+  
+
+  .region-footer p, .site-info .data-section p, .region-header .block{
+      text-align: center;
+  }
+  
+  .region-footer span{
+   margin-right: 0;
+   display: block;
+  }
+  
+  .page-explore-cbpp-communities .views-exposed-form .views-submit-button{
+      padding-left: 0;
+  }
+  
+  #views-exposed-form-cbpp-communities-search-exposed-page input[type="submit"]{
+      float: none;
+      display: block;
+      margin-left: 0;
+      
+  }
+  
+  #edit-field-cbpp-content-license-tid-button{
+      width: 96% !important;
+  }
+  
+  .ui-selectmenu-menu ul,.ui-selectmenu-menu{
+      width: 98%;
+  }
+  
+  #content input[type="text"], #content input[type="email"], #content input[type="password"], #content input[type="search"]{
+      max-width: 98%;
+  }
+  
+   .views-exposed-widget.views-widget-filter-field_cbpp_legal_entity_tid {
+    clear: both;
+    float: none;
+}   
+  
+}
+/*
+ * Tablet sizes and up
+ */
+@media only screen and (max-width: 767px) {
+    
+      .container {
+            width:98%;
+            padding: 0 1%;
+            }
+         
+            #menu-bar > nav {
+    width: 100%;
+}
+
+#menu-bar{
+    border: none;
+}
+
+.ui-selectmenu-menu ul, .ui-selectmenu{
+    max-width: 100% !important;
+    width: 96% !important;
+}
+
+.copyright{
+    margin-bottom: 0;
+}
+
+.region-sidebar-second{
+    margin-top: 0;
+}
+
+.form-item input{
+    border-radius: 0 !important;
+}
+.container{ 
+    width: 98%;
+    margin: 0 auto;
+}
+#menu-bar .menu a{
+    padding:5px 0.5em 5px 1em;
+}
+#menu-bar .menu li .sf-sub-indicator{
+    right: -5px;
+}
+   
+#edit-captcha{
+    float: none;
+    clear: both;
+}
+
+#edit-masquerade-user-field{
+    width:64%;
+    float: left;
+}
+
+
+    
+} 
+/*
+ * Desktops/laptops and up
+ */
+/* @media only screen and (min-width: 1025px) {} */
