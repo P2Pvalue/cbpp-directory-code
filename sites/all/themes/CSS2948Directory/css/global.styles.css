@@ -80,9 +80,15 @@ body {
   background:  url(../images/1png) center top no-repeat;
 }
 
-#main-content ul li span, #main-content ul li a, #main-content ul li p, #main-content ul li strong, #main-content ul li label, #main-content section div.field-item a, #main-content section div.field-item span, .thoroughfare{
+#main-content ul li span, #main-content ul li a, #main-content ul li p, #main-content ul li strong,
+#main-content ul li label, #main-content section div.field-item a, 
+#main-content section div.field-item span, .thoroughfare,#main-content ul li span {
     font-size: 1.4em;
 }
+
+#main-content ul li span a,#main-content ul li a span,#main-content ul li span strong,#main-content ul li a strong,#main-content ul li strong a,
+#main-content ul li strong span{ font-size:1em;}
+
 
 form label {
     font-size: 1.4em;
@@ -1913,13 +1919,19 @@ body{ background: #f9f9f9; padding-top: 18px;}
 #block-search-form  .form-item,#block-search-form  .form-actions{ margin: 0;}
 
 #block-search-form input[type='text'],#block-search-form input[type='email'],
-#block-search-form input[type='password'],#block-search-form input[type='search']{ border-color: #F9F9F9; padding:9px 4px;
+#block-search-form input[type='password'],#block-search-form input[type='search']{ border-color: #F9F9F9; padding:10px 4px;
     width: 114px; font-size: 1.3em;}
+ul.menu{ padding-left: 0;}
+ul.menu li{ list-style: none;}
+.region-sidebar-second .region-inner ul.menu li a {
+font-size: 1.4em;
+}
+#block-search-form .form-item input{ border-top: 0; border-bottom: 0;border-right: 1px solid #689eff;}
+#block-search-form{}
 
+#block-search-form #search-block-form{ width: 166px;border: 1px solid #689eff;}
 
-#block-search-form .form-item input{border-left: 1px solid #689eff;border-right: 1px solid #689eff;}
-#block-search-form{border-right: 1px solid #689eff;}
-#block-search-form .form-actions input{ background: url(../images/search) 0 0 no-repeat; width: 36px; height: 35px; border: 0; text-indent: -999999em;}
+#block-search-form .form-actions input{ background: url(../images/search.png) 0 0 no-repeat; width: 36px; height: 35px; border: 0; text-indent: -999999em;}
 
 /*header ends*/
 
@@ -1977,10 +1989,11 @@ html.js input.form-autocomplete{
 }
 
 .site-info{ overflow:hidden; padding-top: 2em;}
-.site-info .data-section{ float:left; width:50%; }
+.site-info .data-section{ float:left; width:64%; }
 .site-info .com-section img{ margin-right: 2em;}
-.site-info .data-section p{ font-size:1.1em; color:#808080;}
-.site-info .com-section{ float:right; width:40%;text-align: center;}
+.site-info .data-section p{ font-size:1.4em; color:#808080;}
+.site-info .data-section p a,.site-info .data-section p span{ font-size: 1em;}
+.site-info .com-section{ float:right; width:35%;text-align: center;}
 .footer-section{ background:url(../images/footer.png) center top no-repeat; padding-top: 30px;}
 .footer-inner{background:#dddddd;}
 
@@ -1993,10 +2006,10 @@ html.js input.form-autocomplete{
     margin-right: 4em;
 }
 
-#block-block-7{
+/*#block-block-7{
     overflow: hidden;
     border-top: 1px solid #e5e5e5;
-}
+}*/
 
 .copyright{
     margin: 30px 0 70px 0;
@@ -2083,13 +2096,14 @@ h2.field-label{
 html.js input.form-autocomplete{
     background-image: none;
 }
-
 #selc{
     width: 98%;
     margin: 0 auto;
     
 }
-
  .ui-state-active span.ui-selectmenu-status {
     border-right: none;
 }
+.field-item[style="font-size: 1.4em;"] p,.field-item[style="font-size: 1.4em;"] span,.field-item[style="font-size: 1.4em;"] a,
+.field-item[style="font-size: 1.4em;"] strong
+{ font-size: 1em !important;}
