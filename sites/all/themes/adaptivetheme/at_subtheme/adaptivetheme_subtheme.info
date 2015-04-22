@@ -70,7 +70,7 @@
   ; For example if you want to load a script just for IE 8 and below use the
   ; following as a guide:
 
-  ; ie_scripts[lte IE 8][] = js/my-script.js
+  ; ie_scripts[lte IE 8][] = scripts/my-script.js
 
 
 ;----------// Regions
@@ -104,19 +104,19 @@
   ; and main content column layout - these are controlled via theme settings for
   ; Page layouts. The Panels layouts are for Panels module and are controlled via
   ; the theme settings for Panels layouts.
-  
+
   ; There are seperate directories for each type of layout and an example
   ; plugin for each. These don't do very much, they are just examples, you can
   ; use the core themes layout plugins as a guide. Please see the _README in the
   ; layouts directory of this subtheme.
-  
+
   ; Remove the semicolon to umcomment and clear the sites cache.
 
   ; Page layout plugins
-  ; plugins[page_layout][layouts] = layouts/page
+  :plugins[page_layout][layouts] = layouts/page
 
   ; Panels layout plugins
-  ; plugins[panels][layouts] = layouts/panels
+  :plugins[panels][layouts] = layouts/panels
 
 
 ;----------// Site Features
@@ -130,6 +130,17 @@
   features[] = favicon
   features[] = main_menu
   features[] = secondary_menu
+
+  ; Default settings for site features
+  settings[toggle_logo]                      = 1
+  settings[toggle_name]                      = 1
+  settings[toggle_slogan]                    = 1
+  settings[toggle_node_user_picture]         = 1
+  settings[toggle_comment_user_picture]      = 1
+  settings[toggle_comment_user_verification] = 1
+  settings[toggle_favicon]                   = 1
+  settings[toggle_main_menu]                 = 1
+  settings[toggle_secondary_menu]            = 1
 
 
 ;----------// Theme Settings
@@ -164,27 +175,27 @@
   settings[tablet_portrait_page_width]     = 100
   settings[tablet_portrait_sidebar_first]  = 50
   settings[tablet_portrait_sidebar_second] = 50
-  settings[tablet_portrait_media_query]    = 'only screen and (min-width:481px) and (max-width:768px)'
+  settings[tablet_portrait_media_query]    = 'only screen and (min-width:581px) and (max-width:768px)'
 
 
-  ; Layout settings - Smartphone landscape
-  settings[smartphone_landscape_layout]         = 'one_col_vert'
-  settings[smartphone_landscape_page_unit]      = '%'
-  settings[smartphone_landscape_sidebar_unit]   = '%'
-  settings[smartphone_landscape_page_width]     = 100
-  settings[smartphone_landscape_sidebar_first]  = 50
-  settings[smartphone_landscape_sidebar_second] = 50
-  settings[smartphone_landscape_media_query]    = 'only screen and (min-width:321px) and (max-width:480px)'
+  ; Layout settings - Smalltouch landscape
+  settings[smalltouch_landscape_layout]         = 'one_col_vert'
+  settings[smalltouch_landscape_page_unit]      = '%'
+  settings[smalltouch_landscape_sidebar_unit]   = '%'
+  settings[smalltouch_landscape_page_width]     = 100
+  settings[smalltouch_landscape_sidebar_first]  = 50
+  settings[smalltouch_landscape_sidebar_second] = 50
+  settings[smalltouch_landscape_media_query]    = 'only screen and (min-width:321px) and (max-width:580px)'
 
 
-  ; Layout settings - Smartphone portrait
-  settings[smartphone_portrait_layout]         = 'one_col_stack'
-  settings[smartphone_portrait_page_unit]      = '%'
-  settings[smartphone_portrait_sidebar_unit]   = '%'
-  settings[smartphone_portrait_page_width]     = 100
-  settings[smartphone_portrait_sidebar_first]  = 100
-  settings[smartphone_portrait_sidebar_second] = 100
-  settings[smartphone_portrait_media_query]    = 'only screen and (max-width:320px)'
+  ; Layout settings - Smalltouch portrait
+  settings[smalltouch_portrait_layout]         = 'one_col_stack'
+  settings[smalltouch_portrait_page_unit]      = '%'
+  settings[smalltouch_portrait_sidebar_unit]   = '%'
+  settings[smalltouch_portrait_page_width]     = 100
+  settings[smalltouch_portrait_sidebar_first]  = 100
+  settings[smalltouch_portrait_sidebar_second] = 100
+  settings[smalltouch_portrait_media_query]    = 'only screen and (max-width:320px)'
 
 
   ; Responsive Panels - Standard layout
@@ -213,7 +224,7 @@
   settings[tablet_landscape_three_25_25_50]    = 'three-25-25-50'
   settings[tablet_landscape_three_50_25_25]    = 'three-50-25-25'
   settings[tablet_landscape_four_4x25]         = 'four-4x25'
-  settings[tablet_landscape_five_5x20]         = 'five-5x20-2x3-grid'
+  settings[tablet_landscape_five_5x20]         = 'five-5x20'
   settings[tablet_landscape_six_6x16]          = 'six-6x16-3x2-grid'
   settings[tablet_landscape_three_inset_left]  = 'three-inset-left'
   settings[tablet_landscape_three_inset_right] = 'three-inset-right'
@@ -235,26 +246,26 @@
   settings[tablet_portrait_three_inset_right] = 'three-inset-right-wrap'
 
 
-  ; Responsive Panels - Smartphone landscape
-  settings[smartphone_landscape_two_50]            = 'two-50-stack'
-  settings[smartphone_landscape_two_33_66]         = 'two-33-66-stack'
-  settings[smartphone_landscape_two_66_33]         = 'two-66-33-stack'
-  settings[smartphone_landscape_two_brick]         = 'two-brick-stack'
-  settings[smartphone_landscape_three_3x33]        = 'three-3x33-stack'
-  settings[smartphone_landscape_three_25_50_25]    = 'three-25-50-25-stack'
-  settings[smartphone_landscape_three_25_25_50]    = 'three-25-25-50-stack'
-  settings[smartphone_landscape_three_50_25_25]    = 'three-50-25-25-stack'
-  settings[smartphone_landscape_four_4x25]         = 'four-4x25-stack'
-  settings[smartphone_landscape_five_5x20]         = 'five-5x20-stack'
-  settings[smartphone_landscape_six_6x16]          = 'six-6x16-stack'
-  settings[smartphone_landscape_three_inset_left]  = 'three-inset-left-stack'
-  settings[smartphone_landscape_three_inset_right] = 'three-inset-right-stack'
+  ; Responsive Panels - Smalltouch landscape
+  settings[smalltouch_landscape_two_50]            = 'two-50-stack'
+  settings[smalltouch_landscape_two_33_66]         = 'two-33-66-stack'
+  settings[smalltouch_landscape_two_66_33]         = 'two-66-33-stack'
+  settings[smalltouch_landscape_two_brick]         = 'two-brick-stack'
+  settings[smalltouch_landscape_three_3x33]        = 'three-3x33-stack'
+  settings[smalltouch_landscape_three_25_50_25]    = 'three-25-50-25-stack'
+  settings[smalltouch_landscape_three_25_25_50]    = 'three-25-25-50-stack'
+  settings[smalltouch_landscape_three_50_25_25]    = 'three-50-25-25-stack'
+  settings[smalltouch_landscape_four_4x25]         = 'four-4x25-stack'
+  settings[smalltouch_landscape_five_5x20]         = 'five-5x20-stack'
+  settings[smalltouch_landscape_six_6x16]          = 'six-6x16-stack'
+  settings[smalltouch_landscape_three_inset_left]  = 'three-inset-left-stack'
+  settings[smalltouch_landscape_three_inset_right] = 'three-inset-right-stack'
 
 
   ; CSS
   settings[disable_responsive_styles]     = 0
   settings[enable_custom_media_queries]   = 1
-  settings[global_default_layout]         = 'smartphone-portrait'
+  settings[global_default_layout]         = 'smalltouch-portrait'
   settings[global_default_layout_toggle]  = 0
   settings[global_files_path]             = 'public_files'
 
@@ -325,6 +336,20 @@
   settings[h6_font_size] = '1em'
 
 
+  ; Site name
+  settings[site_name_case]      = 'snc-n'
+  settings[site_name_weight]    = 'snw-b'
+  settings[site_name_alignment] = 'sna-l'
+  settings[site_name_shadow]    = 'sns-n'
+
+
+  ; Site slogan
+  settings[site_slogan_case]      = 'ssc-n'
+  settings[site_slogan_weight]    = 'ssw-b'
+  settings[site_slogan_alignment] = 'ssa-l'
+  settings[site_slogan_shadow]    = 'sss-n'
+
+
   ; Page title
   settings[page_title_case]      = 'ptc-n'
   settings[page_title_weight]    = 'ptw-b'
@@ -376,6 +401,10 @@
   settings[login_block_remove_openid] = 0
 
 
+  ; User block
+  settings[user_block_user_name] = 1
+
+
   ; Design
   settings[global_gutter_width]           = ''
   settings[page_full_width_wrappers]      = 0
@@ -408,29 +437,43 @@
   settings[rel_author] = 0
 
 
+  ; Mobile metu toggle
+  settings[menu_toggle_tablet_portrait]  = 1
+  settings[menu_toggle_tablet_landscape] = 0
+  settings[menu_toggle_main_menu]        = 1
+  settings[menu_toggle_secondary_menu]   = 1
+  settings[menu_toggle_leaderboard]      = 0
+  settings[menu_toggle_header]           = 0
+  settings[menu_toggle_menu_bar]         = 1
+  settings[menu_toggle_main_menu_title] = Main menu
+  settings[menu_toggle_secondary_menu_title] = User menu
+
+
   ; Mobile metatags
-  settings[mobile_friendly_metatags] = 1
-  settings[adaptivetheme_meta_viewport] = 'width=device-width, initial-scale=1'
+  settings[mobile_friendly_metatags]            = 1
+  settings[adaptivetheme_meta_viewport]         = 'width=device-width, initial-scale=1.0, user-scalable=yes'
   settings[adaptivetheme_meta_mobileoptimized]  = 'width'
   settings[adaptivetheme_meta_handheldfriendly] = 'true'
   settings[adaptivetheme_meta_apple_mobile_web_app_capable] = 'yes'
-  settings[chrome_edge] = 0
-  settings[clear_type]  = 0
+  settings[adaptivetheme_meta_ie_document_mode] = ''
+  settings[adaptivetheme_meta_clear_type]       = 0
 
 
   ; Touch icons
   settings[apple_touch_icon_enable] = 0
-  settings[apple_touch_icon_path_l] = 'images/touch-icon-l.png'
-  settings[apple_touch_icon_path_m] = 'images/touch-icon-m.png'
-  settings[apple_touch_icon_path_h] = 'images/touch-icon-h.png'
+  settings[icon_path_default]                   = 'images/default-60x60.png'
+  settings[apple_touch_icon_path_ipad]          = 'images/ipad-standard-76x76.png'
+  settings[apple_touch_icon_path_iphone_retina] = 'images/iphone-retina-120x120.png'
+  settings[apple_touch_icon_path_ipad_retina]   = 'images/ipad-retina-152x152.png'
+  settings[icon_rel] = 0
 
 
   ; Custom CSS
   settings[custom_css] = ''
 
-; Information added by drupal.org packaging script on 2012-08-29
-version = "7.x-3.1"
+; Information added by Drupal.org packaging script on 2014-03-23
+version = "7.x-3.2"
 core = "7.x"
 project = "adaptivetheme"
-datestamp = "1346238662"
+datestamp = "1395575059"
 

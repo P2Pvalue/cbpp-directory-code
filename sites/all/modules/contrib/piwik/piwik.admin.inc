@@ -40,6 +40,11 @@ function piwik_admin_settings_form($form_state) {
     '#maxlength' => 255,
     '#description' => t('The URL to your Piwik base directory with SSL certificate installed. Required if you track a SSL enabled website. Example: "https://www.example.com/piwik/".'),
   );
+  // Required for automated form save testing only.
+  $form['account']['piwik_url_skiperror'] = array(
+    '#type' => 'hidden',
+    '#default_value' => FALSE,
+  );
 
   // Visibility settings.
   $form['tracking_title'] = array(
@@ -83,7 +88,7 @@ function piwik_admin_settings_form($form_state) {
   // Page specific visibility configurations.
   $php_access = user_access('use PHP for tracking visibility');
   $visibility = variable_get('piwik_visibility_pages', 0);
-  $pages = variable_get('piwik_pages', '');
+  $pages = variable_get('piwik_pages', PIWIK_PAGES);
 
   $form['tracking']['page_vis_settings'] = array(
     '#type' => 'fieldset',
@@ -94,8 +99,8 @@ function piwik_admin_settings_form($form_state) {
 
   if ($visibility == 2 && !$php_access) {
     $form['tracking']['page_vis_settings'] = array();
-    $form['tracking']['page_vis_settings']['visibility'] = array('#type' => 'value', '#value' => 2);
-    $form['tracking']['page_vis_settings']['pages'] = array('#type' => 'value', '#value' => $pages);
+    $form['tracking']['page_vis_settings']['piwik_visibility_pages'] = array('#type' => 'value', '#value' => 2);
+    $form['tracking']['page_vis_settings']['piwik_pages'] = array('#type' => 'value', '#value' => $pages);
   }
   else {
     $options = array(
@@ -169,11 +174,22 @@ function piwik_admin_settings_form($form_state) {
     ),
     '#default_value' => variable_get('piwik_custom', 0),
   );
+  $form['tracking']['user_vis_settings']['piwik_trackuserid'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Track User ID'),
+    '#default_value' => variable_get('piwik_trackuserid', 0),
+    '#description' => t('User ID enables the analysis of groups of sessions, across devices, using a unique, persistent, and non-personally identifiable ID string representing a user. <a href="@url">Learn more about the benefits of using User ID</a>.', array('@url' => 'http://piwik.org/docs/user-id/')),
+  );
 
   // Link specific configurations.
   $form['tracking']['linktracking'] = array(
     '#type' => 'fieldset',
     '#title' => t('Links and downloads'),
+  );
+  $form['tracking']['linktracking']['piwik_trackmailto'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Track clicks on mailto links'),
+    '#default_value' => variable_get('piwik_trackmailto', 1),
   );
   $form['tracking']['linktracking']['piwik_track'] = array(
     '#type' => 'checkbox',
@@ -184,9 +200,35 @@ function piwik_admin_settings_form($form_state) {
     '#title' => t('List of download file extensions'),
     '#title_display' => 'invisible',
     '#type' => 'textfield',
-    '#default_value' => variable_get('piwik_trackfiles_extensions', PK_TRACKFILES_EXTENSIONS),
-    '#description' => t('A file extension list separated by the | character that will be tracked when clicked. Regular expressions are supported. For example: !extensions', array('!extensions' => PK_TRACKFILES_EXTENSIONS)),
-    '#maxlength' => 255,
+    '#default_value' => variable_get('piwik_trackfiles_extensions', PIWIK_TRACKFILES_EXTENSIONS),
+    '#description' => t('A file extension list separated by the | character that will be tracked when clicked. Regular expressions are supported. For example: !extensions', array('!extensions' => PIWIK_TRACKFILES_EXTENSIONS)),
+    '#maxlength' => 500,
+    '#states' => array(
+      'enabled' => array(
+        ':input[name="piwik_track"]' => array('checked' => TRUE),
+      ),
+      # Note: Form required marker is not visible as title is invisible.
+      'required' => array(
+        ':input[name="piwik_track"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+
+  // Message specific configurations.
+  $form['tracking']['messagetracking'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Messages'),
+  );
+  $form['tracking']['messagetracking']['piwik_trackmessages'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Track messages of type'),
+    '#default_value' => variable_get('piwik_trackmessages', array()),
+    '#description' => t('This will track the selected message types shown to users. Tracking of form validation errors may help you identifying usability issues in your site. Every message is tracked as one individual event. Messages from excluded pages cannot tracked.'),
+    '#options' => array(
+      'status' => t('Status message'),
+      'warning' => t('Warning message'),
+      'error' => t('Error message'),
+    ),
   );
 
   $form['tracking']['search'] = array(
@@ -358,12 +400,12 @@ function piwik_admin_settings_form($form_state) {
   $form['advanced']['piwik_js_scope'] = array(
     '#type' => 'select',
     '#title' => t('JavaScript scope'),
-    '#description' => t("<strong>Warning:</strong> Adding the external JavaScript files to the footer region is recommended for performance reasons."),
+    '#description' => t("Piwik recommends adding the tracking code to the header for performance reasons."),
     '#options' => array(
       'footer' => t('Footer'),
       'header' => t('Header'),
     ),
-    '#default_value' => variable_get('piwik_js_scope', 'footer'),
+    '#default_value' => variable_get('piwik_js_scope', 'header'),
   );
 
   return system_settings_form($form);
@@ -394,16 +436,26 @@ function piwik_admin_settings_form_validate($form, &$form_state) {
     form_set_error('piwik_site_id', t('A valid Piwik site ID is an integer only.'));
   }
 
-  $url = $form_state['values']['piwik_url_http'] . 'piwik.php';
+  $piwik_url = $form_state['values']['piwik_url_http'];
+  if ('/' != drupal_substr($piwik_url, -1, 1)) {
+    $piwik_url = $piwik_url . '/';
+    $form_state['values']['piwik_url_http'] = $piwik_url;
+  }
+  $url = $piwik_url . 'piwik.php';
   $result = drupal_http_request($url);
-  if ($result->code != 200) {
+  if ($result->code != 200 && $form_state['values']['piwik_url_skiperror'] == FALSE) {
     form_set_error('piwik_url_http', t('The validation of "@url" failed with error "@error" (HTTP code @code).', array('@url' => check_url($url), '@error' => $result->error, '@code' => $result->code)));
   }
 
   if (!empty($form_state['values']['piwik_url_https'])) {
-    $url = $form_state['values']['piwik_url_https'] . 'piwik.php';
+    $piwik_url = $form_state['values']['piwik_url_https'];
+    if ('/' != drupal_substr($piwik_url, -1, 1)) {
+      $piwik_url = $piwik_url . '/';
+      $form_state['values']['piwik_url_https'] = $piwik_url;
+    }
+    $url = $piwik_url . 'piwik.php';
     $result = drupal_http_request($url);
-    if ($result->code != 200) {
+    if ($result->code != 200 && $form_state['values']['piwik_url_skiperror'] == FALSE) {
       form_set_error('piwik_url_https', t('The validation of "@url" failed with error "@error" (HTTP code @code).', array('@url' => check_url($url), '@error' => $result->error, '@code' => $result->code)));
     }
   }
