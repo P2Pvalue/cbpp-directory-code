@@ -1,0 +1,133 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall functions for the user_verify module.
+ */
+
+//------------------------------------------------------------------------------
+
+/**
+ * Implements hook_install().
+ */
+function user_verify_install() {
+
+  // Remember original Drupal user verification status and disable it.
+  variable_set_value('user_verify_original_email_verification', variable_get_value('user_email_verification'));
+  variable_set_value('user_email_verification', FALSE);
+
+  drupal_set_message(
+    t(
+      'The user verification module has been installed. You may now want to change the default settings on the <a href="@admin_url">administration page</a>.',
+      array('@admin_url' => url('admin/config/people/accounts/verification'))
+    )
+  );
+}
+
+//------------------------------------------------------------------------------
+
+/**
+ * Implements hook_schema().
+ */
+function user_verify_schema() {
+
+  $schema= array(
+    'user_verify' => array(
+      'description' => 'Holds data for the extended user verification',
+      'fields' => array(
+        'uid' => array(
+          'description' => 'References the Drupal user id',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+        'expires' => array(
+          'description' => 'Unix timestamp when the validiation period times out',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => FALSE,
+        ),
+        'code' => array(
+          'description' => 'The code, if any has been generated',
+          'type' => 'varchar',
+          'length' => '255',
+          'not null' => FALSE,
+        ),
+        'mail_success' => array(
+          'description' => 'Unix timestamp of the last successfully sent verification mail.',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => FALSE,
+        ),
+        'errors' => array(
+          'description' => 'Counts the errors on validation attempts',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'size' => 'small',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+      ),
+      'unique keys' => array(
+        'uid' => array('uid'),
+      ),
+    ),
+  );
+  return $schema;
+}
+
+//------------------------------------------------------------------------------
+
+/**
+ * Implements hook_disable().
+ */
+function user_verify_disable() {
+  // We need to warn the site admin that he needs the variable module
+  // for uninstallation.
+  drupal_set_message(
+    t('You have disabled the <em>user verification</em> module. Please remember that the <em>variable</em> module must remain enabled until you have completely uninstalled <em>user verification</em>.'),
+    'warning'
+  );
+}
+
+//------------------------------------------------------------------------------
+
+/**
+ * Implements hook_uninstall().
+ */
+function user_verify_uninstall() {
+
+  // Re-set user verification settings to before-installation state.
+  variable_set_value('user_email_verification', variable_get_value('user_verify_original_email_verification'));
+
+  // Removing our variables is no longer necessary as variable.module takes care of this.
+}
+
+//------------------------------------------------------------------------------
+
+/**
+ * Add a column to track verification mail success.
+ */
+function user_verify_update_7101() {
+  db_add_field('user_verify', 'mail_success', array(
+    'description' => 'Unix timestamp of the last successfully sent verification mail.',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => FALSE,
+  ));
+}
+
+//------------------------------------------------------------------------------
+
+/**
+ * Rename timeout column.
+ */
+function user_verify_update_7201() {
+  db_change_field('user_verify', 'timeout', 'expires', array(
+    'description' => 'Unix timestamp when the validiation period times out',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => FALSE,
+  ));
+}
+
