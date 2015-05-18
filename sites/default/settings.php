@@ -210,6 +210,8 @@
  *   );
  * @endcode
  */
+
+// @TO-CHANGE during deployment to production: these are just temporary credentials for sandboxes
 $databases = array (
   'default' => 
   array (
