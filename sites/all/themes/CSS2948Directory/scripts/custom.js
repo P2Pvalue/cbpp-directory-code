@@ -2,7 +2,7 @@
     jQuery(function() {
         
         
-        
+/*        
         
     jQuery('select').each(function() {
         
@@ -15,6 +15,7 @@
         }
     })
 });
+*/
 
 jQuery(document).ajaxComplete(function() {
     jQuery('select').each(function() {
