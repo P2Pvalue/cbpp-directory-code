@@ -108,3 +108,16 @@ function hs_taxonomy_update_7303() {
     }
   }
 }
+
+/**
+ * Cleanup old-named configs.
+ */
+function hs_taxonomy_update_7304() {
+  require_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'hierarchical_select') . '/includes/common.inc';
+
+  $vocabularies = taxonomy_get_vocabularies();
+  foreach ($vocabularies as $vid => $vocabulary) {
+    $old_config_id = "taxonomy-{$vocabulary->machine_name}";
+    hierarchical_select_common_config_del($old_config_id);
+  }
+}
