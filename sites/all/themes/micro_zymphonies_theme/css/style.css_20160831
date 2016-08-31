@@ -1842,10 +1842,6 @@ h1.page-title{
 	background-color: white;
 }
 
-.page-node-edit fieldset .fieldset-description {
-    margin-top: 19px!important;
-}
-
 /*
  * Responsive
  */
@@ -1888,27 +1884,11 @@ h1.page-title{
     }
     #footer_wrapper .block{
     	margin-bottom: 4%;
-    }   
+    }
+    
 
 }
 
 
-@media screen and (min-width: 1024px) {
-
-	.page-node-3 .intro-video{
-	  float: left;
-	  width: 39%;
-	  margin-right: 1%;
-	}
-	.page-node-3 .video{
-	  float: right;
-	  width: 60%;
-	}
-	#block-views-map-block-1{
-	  clear: both;
-	}
-
-
-}
 
 
